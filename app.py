@@ -3,18 +3,16 @@ app = Flask(__name__)
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from database_setup import Account
+from database_setup import Base, Account
 
 from flask_sqlalchemy import SQLAlchemy
 
 # connect to database and create database session
-# engine = create_engine('sqlite:///accounts-collection.db?check_same_thread=False')
-# Base.metadata.bind = engine
+engine = create_engine('sqlite:///accounts-collection.db?check_same_thread=False')
+Base.metadata.bind = engine
 
-# DBSession = sessionmaker(bind=engine)
-# session = DBSession()
-
-db = SQLAlchemy(app)
+DBSession = sessionmaker(bind=engine)
+session = DBSession()
 
 
 """
@@ -24,19 +22,19 @@ from flask import jsonify
 
 
 def get_accounts():
-	accounts = db.session.query(Account).all()
+	accounts = session.query(Account).all()
 	return jsonify(accounts=[a.serialize for a in accounts])
 
 
 def get_account(account_id):
-    accounts = db.session.query(Account).filter_by(id=account_id).one()
+    accounts = session.query(Account).filter_by(id=account_id).one()
     return jsonify(accounts=accounts.serialize)
 
 
 def makeANewAccount(account_type, username, password, balance):
     addedaccount = Account(account_type=account_type, username=username, password=password, balance=balance)
-    db.session.add(addedaccount)
-    db. hsession.commit()
+    session.add(addedaccount)
+    session.commit()
     return jsonify(Account=addedaccount.serialize)
 
 
