@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Project Ploutos</string>
+    <string name="button_add">+ Add Account</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="signin">Sign In</string>
+    <string-array name="account_types">
+        <item>Checkings</item>
+        <item>Savings</item>
+        <item>Venmo</item>
+        <item>Zelle</item>
+        <item>CashApp</item>
+    </string-array>
+</resources>
