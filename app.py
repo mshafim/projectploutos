@@ -5,6 +5,8 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from database_setup import Base, Account
 
+from flask_sqlalchemy import SQLAlchemy
+
 # connect to database and create database session
 engine = create_engine('sqlite:///accounts-collection.db?check_same_thread=False')
 Base.metadata.bind = engine
@@ -54,7 +56,7 @@ def accountFunctionId(id):
         return get_account(id)
 
 
-	
+
 if __name__ == '__main__':
     app.debug = True
     app.run(host='0.0.0.0', port=4996)
