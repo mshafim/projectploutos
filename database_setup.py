@@ -1,5 +1,6 @@
-import sys
 from flask import jsonify
+import sys, os
+
 
 # for creating the mapper code
 from sqlalchemy import Column, ForeignKey, Integer, String, Float
@@ -13,6 +14,9 @@ from sqlalchemy.orm import sessionmaker
 
 # for configuration
 from sqlalchemy import create_engine
+
+from flask import Flask
+
 
 # create declarative_base instance
 Base = declarative_base()
