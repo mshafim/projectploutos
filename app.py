@@ -44,20 +44,20 @@ def makeANewAccount(account_type, username, password, balance):
 def accountsFunction():
 	if request.method == 'GET':
 		return get_accounts()
-	# code that code be used to create a new account
-	# elif request.method == 'POST':
-	#         account_type = request.args.get('account_type', '')
-	#         username = request.args.get('username', '')
-	#         password = request.args.get('password', '')
-	#         balance = request.args.get('balance', '')
-	#         return makeANewAccount(account_type, username, password, balance)
+	code that code be used to create a new account
+	elif request.method == 'POST':
+	        account_type = request.args.get('account_type', '')
+	        username = request.args.get('username', '')
+	        password = request.args.get('password', '')
+	        balance = request.args.get('balance', '')
+	        return makeANewAccount(account_type, username, password, balance)
 
 @app.route('/api/<int:id>')
 def accountFunctionUsernamePassword(id):
         return get_account(id)
 
 
-	
+
 if __name__ == '__main__':
     app.debug = True
     app.run(host='0.0.0.0', port=4996)
