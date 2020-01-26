@@ -4,22 +4,26 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.NumberFormat;
 import java.util.List;
 
 public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.AccountViewHolder>{
 
+    private Context context;
     private List<Account> accountList;
 
-    public AccountAdapter(List<Account> accountList) {
+    public AccountAdapter(List<Account> accountList, Context context) {
         this.accountList = accountList;
+        this.context = context;
     }
 
     @Override
@@ -30,7 +34,7 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.AccountV
     }
 
    @Override
-    public void onBindViewHolder(AccountViewHolder holder, int position){
+    public void onBindViewHolder(AccountViewHolder holder, final int position){
         NumberFormat fmt = NumberFormat.getCurrencyInstance();
         holder.accountName.setText(accountList.get(position).getAccountName());
         holder.balance.setText(fmt.format(accountList.get(position).getBalance()));
@@ -51,6 +55,37 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.AccountV
                 holder.image.setImageResource(R.drawable.zelle);
                 break;
         }
+       holder.image.setOnClickListener(new View.OnClickListener() {
+
+           @Override
+           public void onClick(View v) {
+               switch(accountList.get(position).getAccountName()) {
+                   case "Checkings":
+                       Toast.makeText(context, "Opening Capital One Mobile", Toast.LENGTH_SHORT).show();
+                       Intent i = context.getPackageManager().getLaunchIntentForPackage("com.konylabs.capitalone");
+                       context.startActivity(i);
+                       break;
+                   case "Savings":
+                       Toast.makeText(context, "Opening Capital One Mobile!", Toast.LENGTH_SHORT).show();
+                       Intent k = context.getPackageManager().getLaunchIntentForPackage("com.konylabs.capitalone");
+                       context.startActivity(k);
+                       break;
+                   case "Venmo":
+                       Toast.makeText(context, "Opening Venmo", Toast.LENGTH_SHORT).show();
+                       Intent j = context.getPackageManager().getLaunchIntentForPackage("com.venmo");
+                       context.startActivity(j);
+                       break;
+                   case "CashApp":
+                       Toast.makeText(context, "Opening Cash App", Toast.LENGTH_SHORT).show();
+                       Intent l = context.getPackageManager().getLaunchIntentForPackage("com.squareup.cash");
+                       context.startActivity(l);
+                       break;
+                   case "Zelle":
+                       Toast.makeText(context, "Zelle not installed", Toast.LENGTH_SHORT).show();
+                       break;
+               }
+           }
+       });
     }
 
    @Override
@@ -76,6 +111,7 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.AccountV
             accountName = (TextView) view.findViewById(R.id.accountName);
             balance = (TextView) view.findViewById(R.id.balance);
             image = (ImageView) view.findViewById(R.id.image);
+            image.setClickable(true);
         }
     }
 }
