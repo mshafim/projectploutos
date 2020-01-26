@@ -43,13 +43,13 @@ public class MainActivity extends AppCompatActivity {
         Account account = new Account("Venmo", 20);
         accountList.add(account);
 
-        account = new Account("Checking Account", 150);
+        account = new Account("Checkings", 150);
         accountList.add(account);
 
         account = new Account("Zelle", 45);
         accountList.add(account);
 
-        account = new Account("Cashapp", 30);
+        account = new Account("CashApp", 30);
         accountList.add(account);
 //
 //        account = new Account("Checking Account", 150);
