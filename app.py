@@ -26,8 +26,8 @@ def get_accounts():
 	return jsonify(accounts=[a.serialize for a in accounts])
 
 
-def get_account(account_id):
-    accounts = session.query(Account).filter_by(id=account_id).one()
+def get_account(account_username, account_password):
+    accounts = session.query(Account).filter_by(username=account_username).filter_by(password=account_password).one()
     return jsonify(accounts=accounts.serialize)
 
 
@@ -44,17 +44,17 @@ def makeANewAccount(account_type, username, password, balance):
 def accountsFunction():
 	if request.method == 'GET':
 		return get_accounts()
-	code that code be used to create a new account
-	elif request.method == 'POST':
-	        account_type = request.args.get('account_type', '')
-	        username = request.args.get('username', '')
-	        password = request.args.get('password', '')
-	        balance = request.args.get('balance', '')
-	        return makeANewAccount(account_type, username, password, balance)
+	# code that code be used to create a new account
+	# elif request.method == 'POST':
+	#         account_type = request.args.get('account_type', '')
+	#         username = request.args.get('username', '')
+	#         password = request.args.get('password', '')
+	#         balance = request.args.get('balance', '')
+	#         return makeANewAccount(account_type, username, password, balance)
 
-@app.route('/api/<int:id>')
-def accountFunctionUsernamePassword(id):
-        return get_account(id)
+@app.route('/api/<username>/<password>')
+def accountFunctionUsernamePassword(username, password):
+	return get_account(username, password)
 
 
 
