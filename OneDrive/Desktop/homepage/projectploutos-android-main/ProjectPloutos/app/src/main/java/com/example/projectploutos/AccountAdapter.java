@@ -61,27 +61,54 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.AccountV
            public void onClick(View v) {
                switch(accountList.get(position).getAccountName()) {
                    case "Checkings":
-                       Toast.makeText(context, "Opening Capital One Mobile", Toast.LENGTH_SHORT).show();
-                       Intent i = context.getPackageManager().getLaunchIntentForPackage("com.konylabs.capitalone");
-                       context.startActivity(i);
+                       try{
+                            Toast.makeText(context, "Opening Capital One Mobile", Toast.LENGTH_SHORT).show();
+                            Intent i = context.getPackageManager().getLaunchIntentForPackage("com.konylabs.capitalone");
+                            context.startActivity(i);}
+                       catch(Exception e) {
+                            Toast.makeText(context, "Capital One Mobile not installed", Toast.LENGTH_SHORT).show();
+                        }
                        break;
+
                    case "Savings":
-                       Toast.makeText(context, "Opening Capital One Mobile!", Toast.LENGTH_SHORT).show();
-                       Intent k = context.getPackageManager().getLaunchIntentForPackage("com.konylabs.capitalone");
-                       context.startActivity(k);
+                       try {
+                           Toast.makeText(context, "Opening Capital One Mobile!", Toast.LENGTH_SHORT).show();
+                           Intent k = context.getPackageManager().getLaunchIntentForPackage("com.konylabs.capitalone");
+                           context.startActivity(k);
+                       }
+                       catch(Exception e){
+                           Toast.makeText(context, "Capital One Mobile not installed", Toast.LENGTH_SHORT).show();
+                       }
                        break;
                    case "Venmo":
-                       Toast.makeText(context, "Opening Venmo", Toast.LENGTH_SHORT).show();
-                       Intent j = context.getPackageManager().getLaunchIntentForPackage("com.venmo");
-                       context.startActivity(j);
+                       try {
+                           Toast.makeText(context, "Opening Venmo", Toast.LENGTH_SHORT).show();
+                           Intent j = context.getPackageManager().getLaunchIntentForPackage("com.venmo");
+                           context.startActivity(j);
+                       }
+                       catch(Exception e){
+                           Toast.makeText(context, "Venmo not installed", Toast.LENGTH_SHORT).show();
+                       }
                        break;
                    case "CashApp":
-                       Toast.makeText(context, "Opening Cash App", Toast.LENGTH_SHORT).show();
-                       Intent l = context.getPackageManager().getLaunchIntentForPackage("com.squareup.cash");
-                       context.startActivity(l);
+                       try {
+                           Toast.makeText(context, "Opening Cash App", Toast.LENGTH_SHORT).show();
+                           Intent l = context.getPackageManager().getLaunchIntentForPackage("com.squareup.cash");
+                           context.startActivity(l);
+                       }
+                       catch(Exception e){
+                           Toast.makeText(context, "Cash App not installed", Toast.LENGTH_SHORT).show();
+                       }
                        break;
                    case "Zelle":
-                       Toast.makeText(context, "Zelle not installed", Toast.LENGTH_SHORT).show();
+                       try {
+                           Toast.makeText(context, "Opening Zelle", Toast.LENGTH_SHORT).show();
+                           Intent m = context.getPackageManager().getLaunchIntentForPackage("com.zellepay.zelle");
+                           context.startActivity(m);
+                       }
+                       catch(Exception e) {
+                           Toast.makeText(context, "Zelle not installed", Toast.LENGTH_SHORT).show();
+                       }
                        break;
                }
            }
