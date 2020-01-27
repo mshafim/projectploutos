@@ -31,42 +31,59 @@ public class Test extends AppCompatActivity {
 
         // Get the Intent that started this activity and extract the string
         Intent intent = getIntent();
-        String username = intent.getStringExtra("username");
+        final String username = intent.getStringExtra("username");
         TextView textView = findViewById(R.id.textView);
-        textView.setText(username);
-        String password = intent.getStringExtra("password");
+        textView.setText("ADDING ACCOUNT");
+        final String password = intent.getStringExtra("password");
         TextView textView2 = findViewById(R.id.textView2);
-        textView2.setText(password);
-        String accountType = intent.getStringExtra("account");
+        textView2.setText("PLEASE WAIT...");
+        final String accountType = intent.getStringExtra("account");
         TextView textView3 = findViewById(R.id.textView3);
         textView3.setText(accountType);
         mTextViewResult = findViewById(R.id.textView4);
         mQueue = MySingleton.getInstance(this).getRequestQueue();
 
-        Random rnd = new Random();
-        String url = "https://superheroapi.com/api/2577189005834916/" + String.valueOf(rnd.nextInt(731) + 1);
+        final String url = "http://10.0.2.2:5000/api/" + username + "/" + password;
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        try {
-                            String name = response.getString("name");
-                            String real = response.getJSONObject("biography").getString("full-name");
-                            String birthplace = response.getJSONObject("biography").getString("place-of-birth");
-                            mTextViewResult.setText("\n" + name + ", " + real + ", " + birthplace + "\n");
+                       try {
+                           Account account = new Account();
 
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                           account.setAccountName(accountType);
+                           account.setId(Integer.parseInt(response.getJSONObject("accounts").getString("id")));
+                           String balance = response.getJSONObject("accounts").getString("balance");
+                           double bal = Double.parseDouble(balance.substring(1));
+                           account.setBalance(bal);
+                           MainActivity.appDatabase.accountDao().addAccount(account);
+                           mTextViewResult.setText(response.getJSONObject("accounts").getString("balance"));
+                           Toast.makeText(getApplicationContext(), "Account Added Successfully", Toast.LENGTH_SHORT).show();
+                       }
+                       catch(JSONException e){e.printStackTrace();}
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
-            }
+                Toast.makeText(getApplicationContext(), "Account not added", Toast.LENGTH_SHORT).show();
+                error.printStackTrace(); }
         });
 
         mQueue.add(request);
+        Thread myThread = new Thread(){
+            @Override
+            public void run() {
+                try {
+                    sleep(3000);
+                    Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        myThread.start();
     }
 }

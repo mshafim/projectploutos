@@ -11,11 +11,11 @@ import java.util.List;
 public interface AccountDao {
 
     @Delete
-    void delete(Credential credential);
+    void delete(Account account);
 
     @Insert
-    public void addAccount(Credential credential);
+    public void addAccount(Account account);
 
-    @Query("select * from credentials")
-    public List<Credential> getCredentials();
+    @Query("select * from accounts")
+    public List<Account> getAccounts();
 }
