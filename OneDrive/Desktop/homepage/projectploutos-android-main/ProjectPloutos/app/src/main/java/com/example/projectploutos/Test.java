@@ -16,9 +16,6 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Random;
-
-import static android.app.PendingIntent.getActivity;
 
 public class Test extends AppCompatActivity {
     private RequestQueue mQueue;
@@ -41,6 +38,7 @@ public class Test extends AppCompatActivity {
         TextView textView3 = findViewById(R.id.textView3);
         textView3.setText(accountType);
         mTextViewResult = findViewById(R.id.textView4);
+        mTextViewResult.setText("SEARCHING");
         mQueue = MySingleton.getInstance(this).getRequestQueue();
 
         final String url = "http://10.0.2.2:5000/api/" + username + "/" + password;
@@ -51,7 +49,6 @@ public class Test extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
                        try {
                            Account account = new Account();
-
                            account.setAccountName(accountType);
                            account.setId(Integer.parseInt(response.getJSONObject("accounts").getString("id")));
                            String balance = response.getJSONObject("accounts").getString("balance");
@@ -66,7 +63,7 @@ public class Test extends AppCompatActivity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplicationContext(), "Account not added", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Account not found", Toast.LENGTH_SHORT).show();
                 error.printStackTrace(); }
         });
 
