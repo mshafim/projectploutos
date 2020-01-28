@@ -4,7 +4,9 @@
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="signin">Sign In</string>
+    <string name="prompt">Select Account Type</string>
     <string-array name="account_types">
+        <item>Select account type...</item>
         <item>Checkings</item>
         <item>Savings</item>
         <item>Venmo</item>
