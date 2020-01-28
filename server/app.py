@@ -5,8 +5,6 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from database_setup import Base, Account
 
-from flask_sqlalchemy import SQLAlchemy
-
 # connect to database and create database session
 engine = create_engine('sqlite:///accounts-collection.db?check_same_thread=False')
 Base.metadata.bind = engine
@@ -26,8 +24,8 @@ def get_accounts():
 	return jsonify(accounts=[a.serialize for a in accounts])
 
 
-def get_account(account_username, account_password):
-    accounts = session.query(Account).filter_by(username=account_username).filter_by(password=account_password).one()
+def get_account(account_id):
+    accounts = session.query(Account).filter_by(id=account_id).one()
     return jsonify(accounts=accounts.serialize)
 
 
@@ -44,20 +42,19 @@ def makeANewAccount(account_type, username, password, balance):
 def accountsFunction():
 	if request.method == 'GET':
 		return get_accounts()
-	# code that code be used to create a new account
-	# elif request.method == 'POST':
-	#         account_type = request.args.get('account_type', '')
-	#         username = request.args.get('username', '')
-	#         password = request.args.get('password', '')
-	#         balance = request.args.get('balance', '')
-	#         return makeANewAccount(account_type, username, password, balance)
+	elif request.method == 'POST':
+	        account_type = request.args.get('account_type', '')
+	        username = request.args.get('username', '')
+	        password = request.args.get('password', '')
+	        balance = request.args.get('balance', '')
+	        return makeANewAccount(account_type, username, password, balance)
 
-@app.route('/api/<username>/<password>')
-def accountFunctionUsernamePassword(username, password):
-	return get_account(username, password)
-
+@app.route('/api/<int:id>')
+def accountFunctionId(id):
+        return get_account(id)
 
 
+	
 if __name__ == '__main__':
     app.debug = True
     app.run(host='0.0.0.0', port=4996)
